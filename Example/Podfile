@@ -2,6 +2,7 @@ use_frameworks!
 
 target 'GSSwiftKit_Example' do
   pod 'GSSwiftKit', :path => '../'
+  pod 'Eureka'
 
   target 'GSSwiftKit_Tests' do
     inherit! :search_paths
