@@ -43,13 +43,57 @@ class StringCheckerViewController: FormViewController {
                 $0.title = "Check"
                 }.onCellSelection({ [weak self](row, row1) in
                     do{
-                        print(self?.form.values()["IDCard"] as? String)
                         try self?.showAlertMessage(StringChecker.isIDCard(self?.form.values()["IDCard"] as? String))
                     }catch{
                         
                         self?.showAlertMessage(error.localizedDescription)
                     }
                 })
+            <<< TextRow(){ row in
+                row.tag = "isLetterOrNumber"
+                row.title = "字母或数字"
+                row.value = "11111"
+            }
+            <<< ButtonRow(){
+                $0.title = "Check"
+                }.onCellSelection({ [weak self](row, row1) in
+                    do{
+                        try self?.showAlertMessage(StringChecker.isLetterOrNumber(self?.form.values()["isLetterOrNumber"] as? String))
+                    }catch{
+                        
+                        self?.showAlertMessage(error.localizedDescription)
+                    }
+                })
+            <<< TextRow(){ row in
+                row.tag = "isStrongPassword"
+                row.title = "强密码"
+                row.value = "aaAA11-"
+            }
+            <<< ButtonRow(){
+                $0.title = "Check"
+                }.onCellSelection({ [weak self](row, row1) in
+                    do{
+                        try self?.showAlertMessage(StringChecker.isStrongPassword(self?.form.values()["isStrongPassword"] as? String))
+                    }catch{
+                        
+                        self?.showAlertMessage(error.localizedDescription)
+                    }
+                })
+            <<< TextRow(){ row in
+                row.tag = "Emoji"
+                row.title = "Emoji"
+                row.value = "🍃"
+            }
+            <<< ButtonRow(){
+                $0.title = "Check"
+                }.onCellSelection({ [weak self](row, row1) in
+                    if StringChecker.isContainsEmoji(self?.form.values()["Emoji"] as? String){
+                        self?.showAlertMessage("有")
+                    }else{
+                         self?.showAlertMessage("没有")
+                    }
+                })
+        
         
     }
     
