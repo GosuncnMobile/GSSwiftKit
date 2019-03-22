@@ -15,6 +15,7 @@
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		A0AB242087A25AA9F636DEE0 /* Pods_GSSwiftKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644902D5CDF8D425A1A730B0 /* Pods_GSSwiftKit_Example.framework */; };
 		DA1B86562A7516EC0431FACB /* Pods_GSSwiftKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CA96B59F73AE7DDF2C61A95 /* Pods_GSSwiftKit_Tests.framework */; };
+		F427BBA52244C6D100D44980 /* StringCheckerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427BBA42244C6D100D44980 /* StringCheckerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		644902D5CDF8D425A1A730B0 /* Pods_GSSwiftKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GSSwiftKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE75A1E27956E30920204256 /* Pods-GSSwiftKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GSSwiftKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-GSSwiftKit_Example/Pods-GSSwiftKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 		D423136DC6B3DCB7EF289C10 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		F427BBA42244C6D100D44980 /* StringCheckerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCheckerViewController.swift; sourceTree = "<group>"; };
 		F46B02BF43E46E63F0B46002 /* Pods-GSSwiftKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GSSwiftKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GSSwiftKit_Tests/Pods-GSSwiftKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +106,7 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				F427BBA32244C6BF00D44980 /* Tools */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -157,6 +160,14 @@
 				0E0681F28678B1C7CB6D87A6 /* Pods-GSSwiftKit_Tests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F427BBA32244C6BF00D44980 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				F427BBA42244C6D100D44980 /* StringCheckerViewController.swift */,
+			);
+			path = Tools;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,12 +306,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-GSSwiftKit_Example/Pods-GSSwiftKit_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/GSSwiftKit/GSSwiftKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSSwiftKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -361,6 +374,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F427BBA52244C6D100D44980 /* StringCheckerViewController.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);

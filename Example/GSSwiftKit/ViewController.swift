@@ -7,12 +7,20 @@
 //
 
 import UIKit
+import Eureka
 
-class ViewController: UIViewController {
+class ViewController: FormViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.navigationItem.title = "目录"
+        form +++ Section("Tools")
+            <<< ButtonRow(){
+                $0.title = "StringChecker"
+                }.onCellSelection({ [weak self](row, row1) in
+                    self?.navigationController?.pushViewController(StringCheckerViewController(), animated: true)
+                })
+            +++ Section("Extensions")
     }
 
     override func didReceiveMemoryWarning() {

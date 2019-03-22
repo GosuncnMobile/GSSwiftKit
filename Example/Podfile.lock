@@ -1,15 +1,18 @@
 PODS:
+  - Eureka (4.3.1)
   - GSSwiftKit (0.1.0)
   - Nimble (7.0.3)
   - Quick (1.2.0)
 
 DEPENDENCIES:
+  - Eureka
   - GSSwiftKit (from `../`)
   - Nimble (~> 7.0.2)
   - Quick (~> 1.2.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Eureka
     - Nimble
     - Quick
 
@@ -18,10 +21,11 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  GSSwiftKit: e7af21c394d194f3f02d35a45d89cae70d152ea5
+  Eureka: 28ea296f06710f6745266b71f17862048941a32d
+  GSSwiftKit: 5d853372c29c9b22af69cb19e1ca08a19b18e695
   Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
 
-PODFILE CHECKSUM: ba334acd3f1816756a988881ca0a946197627200
+PODFILE CHECKSUM: ec11790e14ab305c1acafb2b02c7454a018eafbe
 
 COCOAPODS: 1.5.3
