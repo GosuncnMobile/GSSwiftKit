@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  GSSwiftKit
+
+  Created by Linzy on 2019/4/3.
+  Copyright © 2019年 Gosuncn. All rights reserved.
+*/
+"Hello"="你好";
+"localizeWithFormat" = "开始 %@ 结束";

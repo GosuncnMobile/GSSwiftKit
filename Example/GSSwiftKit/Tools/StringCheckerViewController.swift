@@ -25,10 +25,12 @@ class StringCheckerViewController: FormViewController {
             <<< ButtonRow(){
                 $0.title = "Check"
                 }.onCellSelection({ [weak self](row, row1) in
-                    
+                    guard let input = self?.form.values()["phone"] as? String else{
+                        return
+                    }
+                   
                     do{
-                        
-                        try self?.showAlertMessage(StringChecker.isMoblie(self?.form.values()["phone"] as? String))
+                        try self?.showAlertMessage(input.checkString(.isMoblie))
                     }catch{
                         
                         self?.showAlertMessage(error.localizedDescription)
@@ -93,6 +95,20 @@ class StringCheckerViewController: FormViewController {
                          self?.showAlertMessage("没有")
                     }
                 })
+            <<< TextRow(){ row in
+                row.tag = "isIPAddress"
+                row.title = "IP地址"
+                row.value = "127.0.0.0"
+            }
+            <<< ButtonRow(){
+                $0.title = "Check"
+                }.onCellSelection({ [weak self](row, row1) in
+                    do{
+                        try self?.showAlertMessage(StringChecker.isIPAddress(self?.form.values()["isIPAddress"] as? String))
+                    }catch{
+                        self?.showAlertMessage(error.localizedDescription)
+                    }
+                })
         
         
     }
@@ -101,6 +117,7 @@ class StringCheckerViewController: FormViewController {
         let alert = UIAlertController(title: "提示", message: Message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
         self.navigationController?.present(alert, animated: true, completion: nil)
+        
     }
     
 }

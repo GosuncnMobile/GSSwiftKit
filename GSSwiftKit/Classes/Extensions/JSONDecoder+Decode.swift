@@ -26,7 +26,7 @@ public extension JSONDecoder {
             return nil
         }
     }
-    
+
     // JSON-> 实体类
     static func formJson<T: Codable>(_ data: Data, to type: T.Type) -> T? {
         do{

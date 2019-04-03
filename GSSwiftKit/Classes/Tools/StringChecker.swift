@@ -13,6 +13,7 @@ public enum StringCheckerType{
     case isMoblie
     case isIDCard
     case isLetterOrNumber
+    case isIPAddress
 }
 
 public enum StringCheckerError : Error {
@@ -33,6 +34,11 @@ extension StringCheckerError : LocalizedError {
     }
 }
 
+public extension String {
+    func checkString(_ type : StringCheckerType) throws -> String{
+        return try StringChecker.checkString(self, check: type)
+    }
+}
 
 public struct StringChecker {
     public static func checkString(_ input : String?, check : StringCheckerType) throws -> String {
@@ -43,6 +49,8 @@ public struct StringChecker {
             return try isIDCard(input)
         case .isLetterOrNumber:
             return try isLetterOrNumber(input)
+        case .isIPAddress:
+            return try isIPAddress(input)
         default:
             return ""
         }
@@ -65,6 +73,18 @@ public struct StringChecker {
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
         guard phoneTest.evaluate(with: input) else {
             throw StringCheckerError.FormatError("手机号格式不正确")
+        }
+        return input
+    }
+    
+    public static func isIPAddress(_ input : String?) throws -> String {
+        guard let input = input else {
+            throw StringCheckerError.emptyError("IP地址为空")
+        }
+        let regexrStr: String = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+        let test = NSPredicate(format: "SELF MATCHES %@", regexrStr)
+        guard test.evaluate(with: input) else {
+            throw StringCheckerError.FormatError("IP地址格式不正确")
         }
         return input
     }

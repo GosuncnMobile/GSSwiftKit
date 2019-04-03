@@ -21,6 +21,16 @@ class ViewController: FormViewController {
                     self?.navigationController?.pushViewController(StringCheckerViewController(), animated: true)
                 })
             +++ Section("Extensions")
+                <<< ButtonRow(){
+                    $0.title = "JSON"
+                    }.onCellSelection({ [weak self](row, row1) in
+                        self?.navigationController?.pushViewController(JSONViewController(), animated: true)
+                    })
+            <<< ButtonRow(){
+                $0.title = "Localized String"
+                }.onCellSelection({ [weak self](row, row1) in
+                    self?.navigationController?.pushViewController(LocalizedViewController(), animated: true)
+                })
     }
 
     override func didReceiveMemoryWarning() {
