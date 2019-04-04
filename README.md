@@ -1,7 +1,12 @@
 # GSSwiftKit
 Just Swift tools and Extensions.
+
 Without network,Without platform dependence.
+
 一些Swift常用工具类.不包括网络库,不包括平台相关库.
+
+会包含一些业务工具类.
+
 暂无发布版本.
 
 ## Example
@@ -16,10 +21,10 @@ it, simply add the following line to your Podfile:
 pod 'GSSwiftKit', :git => 'https://github.com/GosuncnMobile/GSSwiftKit.git'
 ```
 ## Detail
-- StringChecker
-手机号校验,身份证校验
-- JSONDecoder/JSONEncoder
-JSON解析
+- StringChecker  手机号校验,身份证校验
+- JSONDecoder/JSONEncoder JSON解析
+- String+Localized 国际化
+- Date+Bussiness 业务日期处理
 
 ## Author
 zoelam020@gmail.com
