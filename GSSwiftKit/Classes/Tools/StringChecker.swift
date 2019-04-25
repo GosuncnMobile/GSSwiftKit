@@ -35,26 +35,27 @@ extension StringCheckerError : LocalizedError {
 }
 
 public extension String {
-    func checkString(_ type : StringCheckerType) throws -> String{
-        return try StringChecker.checkString(self, check: type)
+    func checkString(_ type : StringCheckerType , completionHandler: @escaping (Result<String, StringCheckerError>) -> Void){
+         StringChecker.checkString(self, check: type,completionHandler: completionHandler)
     }
 }
 
 public struct StringChecker {
-    public static func checkString(_ input : String?, check : StringCheckerType) throws -> String {
+    
+    public static func checkString(_ input : String?, check : StringCheckerType, completionHandler: @escaping (Result<String, StringCheckerError>) -> Void) {
         switch check {
         case .isMoblie:
-            return try isMoblie(input)
+                completionHandler(isMoblie(input))
         case .isIDCard:
-            return try isIDCard(input)
+              completionHandler(isIDCard(input))
         case .isLetterOrNumber:
-            return try isLetterOrNumber(input)
+             completionHandler(isLetterOrNumber(input))
         case .isIPAddress:
-            return try isIPAddress(input)
-        default:
-            return ""
+            completionHandler(isIPAddress(input))
         }
+       
     }
+    
     
     public static func isEmpty(_ input : String?) -> Bool{
         guard let str = input,
@@ -65,72 +66,72 @@ public struct StringChecker {
         return true;
     }
     
-    public static func isMoblie(_ input : String?) throws -> String {
+    public static func isMoblie(_ input : String?) -> Result<String, StringCheckerError> {
         guard let input = input else {
-            throw StringCheckerError.emptyError("手机号不能为空")
+            return Result.failure(StringCheckerError.emptyError("手机号不能为空"))
         }
         let phoneRegex: String = "^((13[0-9])|(15[^4,\\D])|(18[0,0-9])|(17[0,0-9]))\\d{8}$"
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
         guard phoneTest.evaluate(with: input) else {
-            throw StringCheckerError.FormatError("手机号格式不正确")
+            return Result.failure(StringCheckerError.FormatError("手机号格式不正确"))
         }
-        return input
+        return Result.success(input)
     }
     
-    public static func isIPAddress(_ input : String?) throws -> String {
+    public static func isIPAddress(_ input : String?) -> Result<String, StringCheckerError> {
         guard let input = input else {
-            throw StringCheckerError.emptyError("IP地址为空")
+            return Result.failure(StringCheckerError.emptyError("IP地址为空"))
         }
         let regexrStr: String = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
         let test = NSPredicate(format: "SELF MATCHES %@", regexrStr)
         guard test.evaluate(with: input) else {
-            throw StringCheckerError.FormatError("IP地址格式不正确")
+            return Result.failure(StringCheckerError.FormatError("IP地址格式不正确"))
         }
-        return input
+         return Result.success(input)
     }
     
     //只包含字母和数字,例如用户和密码
-    public static func isLetterOrNumber(_ input : String?) throws -> String{
+    public static func isLetterOrNumber(_ input : String?) -> Result<String, StringCheckerError>{
         guard let input = input else {
-            throw StringCheckerError.emptyError("不能为空")
+            return Result.failure(StringCheckerError.emptyError("不能为空"))
         }
         let regex: String = "^[A-Za-z0-9]+$"
         let test = NSPredicate(format: "SELF MATCHES %@", regex)
         guard test.evaluate(with: input) else {
-            throw StringCheckerError.FormatError("只能为英文或数字")
+                return Result.failure(StringCheckerError.FormatError("只能为英文或数字"))
         }
-        return input
+        return Result.success(input)
     }
     
     //强密码,字数要求由业务决定
     //要求密码包括大小写字母数字以及特殊字符四种字符
-    public static func isStrongPassword(_ input : String?) throws -> String{
+    public static func isStrongPassword(_ input : String?) -> Result<String, StringCheckerError>{
         guard let input = input else {
-            throw StringCheckerError.emptyError("不能为空")
+            return Result.failure(StringCheckerError.emptyError("不能为空"))
         }
         if(input.count !=  input.data(using: .utf8)?.count){
-            throw StringCheckerError.FormatError("密码包含不合法字符")
+            return Result.failure(StringCheckerError.FormatError("密码包含不合法字符"))
         }
         let regex: String = "^(?=.*?[A-Z]+)(?=(.*[a-z])+)(?=(.*[\\d])+)(?=(.*[\\W])+)(?!.*\\s).{4,}$"
         let test = NSPredicate(format: "SELF MATCHES %@", regex)
         guard test.evaluate(with: input) else {
-            throw StringCheckerError.FormatError("密码要求包括大小写字母数字以及特殊字符")
+            return Result.failure(StringCheckerError.FormatError("密码要求包括大小写字母数字以及特殊字符"))
         }
-        return input
+       return Result.success(input)
     }
     
-    public static func isIDCard(_ input : String?) throws -> String{
+    public static func isIDCard(_ input : String?) -> Result<String, StringCheckerError> {
         guard let IDStr = input else {
-            throw StringCheckerError.emptyError("身份证号不能为空")
+            return Result.failure(StringCheckerError.emptyError("不能为空"))
         }
         guard IDStr.count == 15 || IDStr.count == 18 else {
-            throw StringCheckerError.FormatError("身份证号码长度应该为15位或18位")
+            return Result.failure(StringCheckerError.FormatError("身份证号码长度应该为15位或18位"))
         }
         
         let IDCardRegex: String = "(^[0-9]{15}$)|([0-9]{17}([0-9]|X)$)"
         let IDCardTest = NSPredicate(format: "SELF MATCHES %@", IDCardRegex)
         guard IDCardTest.evaluate(with: IDStr) else {
-            throw StringCheckerError.FormatError("身份证号格式不正确")
+            return Result.failure(StringCheckerError.FormatError("身份证号格式不正确"))
         }
         
         let birthdayStr = IDStr[IDStr.index(IDStr.startIndex, offsetBy: 6)..<IDStr.index(IDStr.startIndex, offsetBy: 14)]
@@ -140,7 +141,7 @@ public struct StringChecker {
             birthday.timeIntervalSinceNow  < 0,
             abs(birthday.timeIntervalSinceNow ) < 150*365*24*60*50
             else{
-                throw StringCheckerError.FormatError("身份证号出生日期无效")
+                 return Result.failure(StringCheckerError.FormatError("身份证号出生日期无效"))
         }
         
         
@@ -149,7 +150,7 @@ public struct StringChecker {
         let areaTest = NSPredicate(format: "SELF MATCHES %@", areaRegex)
         let areaStr = IDStr[IDStr.index(IDStr.startIndex, offsetBy: 0)..<IDStr.index(IDStr.startIndex, offsetBy: 2)]
         guard areaTest.evaluate(with: areaStr) else {
-            throw StringCheckerError.FormatError("区域编号不正确")
+            return Result.failure(StringCheckerError.FormatError("区域编号不正确"))
         }
         
         if (IDStr.count == 18){
@@ -161,12 +162,10 @@ public struct StringChecker {
                 sum += (Int(String(IDStr[IDStr.index(IDStr.startIndex, offsetBy: i)])) ?? 0) * factor[i]
             }
             guard parity[sum % 11] == String(code) else{
-                throw StringCheckerError.FormatError("身份证号无效")
+                return Result.failure(StringCheckerError.FormatError("身份证号无效"))
             }
-            
         }
-        
-        return IDStr
+        return Result.success(IDStr)
     }
     
     public static func isContainsEmoji(_ input : String?) -> Bool{

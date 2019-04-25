@@ -28,13 +28,14 @@ class StringCheckerViewController: FormViewController {
                     guard let input = self?.form.values()["phone"] as? String else{
                         return
                     }
-                   
-                    do{
-                        try self?.showAlertMessage(input.checkString(.isMoblie))
-                    }catch{
-                        
-                        self?.showAlertMessage(error.localizedDescription)
-                    }
+                    input.checkString(.isMoblie, completionHandler: { result in
+                        switch result{
+                        case .success(let resultStr):
+                            self?.showAlertMessage(resultStr)
+                        case .failure(let error):
+                            self?.showAlertMessage(error.localizedDescription)
+                        }
+                    })
                 })
             <<< TextRow(){ row in
                 row.tag = "IDCard"
@@ -44,10 +45,10 @@ class StringCheckerViewController: FormViewController {
             <<< ButtonRow(){
                 $0.title = "Check"
                 }.onCellSelection({ [weak self](row, row1) in
-                    do{
-                        try self?.showAlertMessage(StringChecker.isIDCard(self?.form.values()["IDCard"] as? String))
-                    }catch{
-                        
+                    switch StringChecker.isIDCard(self?.form.values()["IDCard"] as? String){
+                    case .success(let resultStr):
+                        self?.showAlertMessage(resultStr)
+                    case .failure(let error):
                         self?.showAlertMessage(error.localizedDescription)
                     }
                 })
@@ -59,12 +60,15 @@ class StringCheckerViewController: FormViewController {
             <<< ButtonRow(){
                 $0.title = "Check"
                 }.onCellSelection({ [weak self](row, row1) in
-                    do{
-                        try self?.showAlertMessage(StringChecker.isLetterOrNumber(self?.form.values()["isLetterOrNumber"] as? String))
-                    }catch{
-                        
-                        self?.showAlertMessage(error.localizedDescription)
-                    }
+                    StringChecker.checkString(self?.form.values()["isLetterOrNumber"] as? String, check: .isLetterOrNumber,
+                                              completionHandler: { result in
+                        switch StringChecker.isIDCard(self?.form.values()["IDCard"] as? String){
+                        case .success(let resultStr):
+                            self?.showAlertMessage(resultStr)
+                        case .failure(let error):
+                            self?.showAlertMessage(error.localizedDescription)
+                        }
+                    })
                 })
             <<< TextRow(){ row in
                 row.tag = "isStrongPassword"
@@ -74,10 +78,10 @@ class StringCheckerViewController: FormViewController {
             <<< ButtonRow(){
                 $0.title = "Check"
                 }.onCellSelection({ [weak self](row, row1) in
-                    do{
-                        try self?.showAlertMessage(StringChecker.isStrongPassword(self?.form.values()["isStrongPassword"] as? String))
-                    }catch{
-                        
+                    switch StringChecker.isStrongPassword(self?.form.values()["isStrongPassword"] as? String){
+                    case .success(let resultStr):
+                        self?.showAlertMessage(resultStr)
+                    case .failure(let error):
                         self?.showAlertMessage(error.localizedDescription)
                     }
                 })
@@ -103,9 +107,10 @@ class StringCheckerViewController: FormViewController {
             <<< ButtonRow(){
                 $0.title = "Check"
                 }.onCellSelection({ [weak self](row, row1) in
-                    do{
-                        try self?.showAlertMessage(StringChecker.isIPAddress(self?.form.values()["isIPAddress"] as? String))
-                    }catch{
+                    switch StringChecker.isIPAddress(self?.form.values()["isIPAddress"] as? String){
+                    case .success(let resultStr):
+                        self?.showAlertMessage(resultStr)
+                    case .failure(let error):
                         self?.showAlertMessage(error.localizedDescription)
                     }
                 })
