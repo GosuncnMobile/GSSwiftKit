@@ -70,7 +70,7 @@ public struct StringChecker {
         guard let input = input else {
             return Result.failure(StringCheckerError.emptyError("手机号不能为空"))
         }
-        let phoneRegex: String = "^((13[0-9])|(15[^4,\\D])|(18[0,0-9])|(17[0,0-9]))\\d{8}$"
+        let phoneRegex: String = "^[1][0-9]{10}$"
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
         guard phoneTest.evaluate(with: input) else {
             return Result.failure(StringCheckerError.FormatError("手机号格式不正确"))
